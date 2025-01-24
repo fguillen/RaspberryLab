@@ -16,6 +16,7 @@ class Animation:
     self.sprite_ini = sprite_ini
     self.sprite_end = sprite_end
     self.sprites = self._generate_sprites()
+    self.num_sprites = len(self.sprites)
 
   def _generate_sprites(self):
     sprites = image_to_sprites(self.image_path, self.num_columns, self.num_rows)
@@ -25,14 +26,3 @@ class Animation:
     if index < 0 or index >= len(self.sprites):
       raise IndexError("Sprite index out of range")
     return self.sprites[index]
-
-
-if __name__ == "__main__":
-  animation = Animation("creatures.png", 10, 15, 0, 9)
-  try:
-    for i in range(11):
-      sprite = animation.get_sprite(i)
-      print(f"Sprite {i}: {sprite}")
-      sprite.print()
-  except IndexError as e:
-    print(e)
