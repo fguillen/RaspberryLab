@@ -22,7 +22,7 @@ from adafruit_led_animation.color import colorwheel
 from adafruit_led_animation.color import PINK, GREEN, RED, BLUE
 
 # Update to match the pin connected to your NeoPixels
-pixel_pin = board.D5
+pixel_pin = board.D10
 # Update to match the number of NeoPixels you have connected
 pixel_num = 30
 brightness = 0.3

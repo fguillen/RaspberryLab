@@ -15,7 +15,7 @@ from adafruit_led_animation.sequence import AnimationSequence
 from adafruit_led_animation.color import JADE, AQUA, PINK
 
 # Update to match the pin connected to your NeoPixels
-pixel_pin = board.A1
+pixel_pin = board.D10
 # Update to match the number of NeoPixels you have connected
 pixel_num = 64
 # fmt: off

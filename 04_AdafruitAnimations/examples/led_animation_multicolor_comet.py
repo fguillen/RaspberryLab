@@ -16,7 +16,7 @@ import neopixel
 from adafruit_led_animation.animation.multicolor_comet import MulticolorComet
 
 # Update to match the pin connected to your NeoPixels
-pixel_pin = board.D9
+pixel_pin = board.D10
 # Update to match the number of NeoPixels you have connected
 pixel_num = 96
 brightness = 0.02

@@ -17,7 +17,7 @@ from adafruit_led_animation.animation.comet import Comet
 from adafruit_led_animation.color import JADE
 
 # Update to match the pin connected to your NeoPixels
-pixel_pin = board.A3
+pixel_pin = board.D10
 # Update to match the number of NeoPixels you have connected
 pixel_num = 30
 

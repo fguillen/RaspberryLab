@@ -13,7 +13,7 @@ from adafruit_led_animation.animation.blink import Blink
 from adafruit_led_animation.color import RED
 
 # Update to match the pin connected to your NeoPixels
-pixel_pin = board.D6
+pixel_pin = board.D10
 # Update to match the number of NeoPixels you have connected
 pixel_num = 32
 
