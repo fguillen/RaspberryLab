@@ -31,7 +31,7 @@ from adafruit_led_animation.color import PURPLE, WHITE, AMBER, JADE, MAGENTA, OR
 # Update to match the pin connected to your NeoPixels
 pixel_pin = board.D10
 # Update to match the number of NeoPixels you have connected
-pixel_num = 32
+pixel_num = 64
 
 pixels = neopixel.NeoPixel(pixel_pin, pixel_num, brightness=0.5, auto_write=False)
 
