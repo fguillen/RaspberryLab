@@ -32,9 +32,8 @@ class SpritesAnimation(Animation):
     sprite = self.get_sprite(self.actual_sprite)
     self._sprite_to_grid(sprite)
 
-
-    sprite.print()
-    print(f"\r\033[{sprite.height}A", end="")
+    # sprite.print()
+    # print(f"\r\033[{sprite.height}A", end="")
 
     self.actual_sprite = (self.actual_sprite + 1) % len(self.sprites)
 
