@@ -35,7 +35,7 @@ def image_to_sprites(image_path, cols, rows):
           image_pixel_y = row * sprite_height + sprite_pixel_y
           rgb_pixel_values = image_pixels.getpixel((image_pixel_x, image_pixel_y))
           rgb_pixel_values_normalized = tuple(value / 255 for value in rgb_pixel_values)
-          print("rgb_pixel_value: ", rgb_pixel_values_normalized)
+          print(f"{image_pixel_x}, {image_pixel_y}:", rgb_pixel_values_normalized)
           sprite.set_pixel(sprite_pixel_x, sprite_pixel_y, Color(rgb=(rgb_pixel_values_normalized)))
 
       sprites.append(sprite)
