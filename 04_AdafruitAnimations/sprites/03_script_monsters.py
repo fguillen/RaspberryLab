@@ -16,7 +16,7 @@ pixel_pin = board.D10
 # Update to match the number of NeoPixels you have connected
 pixel_num = 64
 
-pixels = neopixel.NeoPixel(pixel_pin, pixel_num, brightness=1, auto_write=False)
+pixels = neopixel.NeoPixel(pixel_pin, pixel_num, brightness=0.01, auto_write=False)
 
 animations = []
 monster_folder = "./monsters"
@@ -26,13 +26,13 @@ for filename in os.listdir(monster_folder):
     file_path = os.path.join(monster_folder, filename)
     animation = SpritesAnimation(
       pixels,
-      speed=0.4,
+      speed=0.2,
       image_path=file_path,
       num_columns=2,
       num_rows=1,
       sprite_ini=0,
       sprite_end=1,
-      alternating=False
+      alternating=True
     )
     animations.append(animation)
 
