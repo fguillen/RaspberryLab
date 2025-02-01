@@ -1,8 +1,11 @@
-# import adafruit_pixelbuf
-from neopixel_mock.neopixel_mock import NeoPixelMock
-from neopixel_mock.board_mock import BoardMock
+import adafruit_pixelbuf
+# from neopixel_mock.neopixel_mock import NeoPixelMock
+# from neopixel_mock.board_mock import BoardMock
 
-board = BoardMock()
+import board
+import neopixel
+
+# board = BoardMock()
 
 
 from adafruit_led_animation.animation.blink import Blink
@@ -21,9 +24,11 @@ from adafruit_led_animation.animation.customcolorchase import CustomColorChase
 from adafruit_led_animation.sequence import AnimationSequence
 from adafruit_led_animation.color import PURPLE, WHITE, AMBER, JADE, MAGENTA, ORANGE
 
-pixel_pin = board.D18
-pixel_num = 1200
-pixels = NeoPixelMock(pixel_pin, pixel_num, auto_write=False, rows=20)
+pixel_pin = board.D10
+pixel_num = 64
+
+pixels = neopixel.NeoPixel(pixel_pin, pixel_num, brightness=0.2, auto_write=False)
+# pixels = NeoPixelMock(pixel_pin, pixel_num, auto_write=False, rows=20)
 
 blink = Blink(pixels, speed=0.5, color=JADE)
 colorcycle = ColorCycle(pixels, speed=0.4, colors=[MAGENTA, ORANGE])

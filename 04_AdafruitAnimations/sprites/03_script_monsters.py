@@ -16,7 +16,7 @@ pixel_pin = board.D10
 # Update to match the number of NeoPixels you have connected
 pixel_num = 64
 
-pixels = neopixel.NeoPixel(pixel_pin, pixel_num, brightness=0.01, auto_write=False)
+pixels = neopixel.NeoPixel(pixel_pin, pixel_num, brightness=0.5, auto_write=False)
 
 animations = []
 monster_folder = "./monsters"
