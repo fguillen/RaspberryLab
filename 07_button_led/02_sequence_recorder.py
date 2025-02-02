@@ -1,0 +1,55 @@
+from time import time, sleep
+import RPi.GPIO as GPIO
+
+delay = .05
+waitForPlay = 2
+pinButton = 40
+pinLed = 38
+state = "Idle"
+sequenceRecord = []
+sequenceIndex = 0
+lastPulseAt = 0
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(pinButton, GPIO.IN)
+GPIO.setup(pinLed, GPIO.OUT)
+
+def setState(value):
+  global state
+  state = value
+  print(f"state: {state}")
+
+setState("Idle")
+
+
+try:
+  while True:
+    buttonValue = GPIO.input(pinButton)
+    # print(buttonValue)
+
+    if state == "Idle":
+      if buttonValue == 1:
+        lastPulseAt = time()
+        setState("Recording")
+
+    elif state == "Recording":
+      sequenceRecord.append(buttonValue)
+      # print(sequenceRecord)
+      if buttonValue == 1:
+        lastPulseAt = time()
+      else:
+        if lastPulseAt + waitForPlay < time():
+          setState("Playing")
+
+    elif state == "Playing":
+      GPIO.output(pinLed, sequenceRecord[sequenceIndex])
+      sequenceIndex += 1
+      if sequenceIndex >= len(sequenceRecord):
+        sequenceRecord = []
+        sequenceIndex = 0
+        setState("Idle")
+
+    sleep(delay)
+except KeyboardInterrupt:
+  GPIO.cleanup
+  print("bye!")
