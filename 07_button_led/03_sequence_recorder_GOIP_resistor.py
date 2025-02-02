@@ -9,9 +9,10 @@ state = "Idle"
 sequenceRecord = []
 sequenceIndex = 0
 lastPulseAt = 0
+buttonPressed = 1
 
 GPIO.setmode(GPIO.BOARD)
-GPIO.setup(pinButton, GPIO.IN)
+GPIO.setup(pinButton, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(pinLed, GPIO.OUT)
 
 def setState(value):
@@ -28,14 +29,14 @@ try:
     # print(buttonValue)
 
     if state == "Idle":
-      if buttonValue == 1:
+      if buttonValue == buttonPressed:
         lastPulseAt = time()
         setState("Recording")
 
     elif state == "Recording":
       sequenceRecord.append(buttonValue)
-      print(sequenceRecord)
-      if buttonValue == 1:
+      # print(sequenceRecord)
+      if buttonValue == buttonPressed:
         lastPulseAt = time()
       else:
         if lastPulseAt + waitForPlay < time():
@@ -51,5 +52,5 @@ try:
 
     sleep(delay)
 except KeyboardInterrupt:
-  GPIO.cleanup
+  GPIO.cleanup()
   print("bye!")
