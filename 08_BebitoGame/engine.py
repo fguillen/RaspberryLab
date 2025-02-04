@@ -55,7 +55,6 @@ class Engine:
     for x in range(self.pixel_grid.width):
       for y in range(self.pixel_grid.height):
         color = self.canvas[x, y]
-        print("color: ", str(type(color)), color)
         self.pixel_grid[x, y] = color.rgb()
 
     self.pixel_grid.show()

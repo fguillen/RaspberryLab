@@ -9,8 +9,6 @@ class Wanderer(MovingBox):
     direction = self._random_direction(position, limit)
     speed = speed
 
-    print("Wanderer.__init__", position, direction, speed)
-
     super().__init__(color, position, direction, speed, limit)
 
   def _random_position(self, limit):

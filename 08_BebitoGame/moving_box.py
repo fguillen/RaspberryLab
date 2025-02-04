@@ -2,6 +2,7 @@ import time
 
 from vector_2d import Vector2D
 from canvas import Canvas
+from color import Color
 
 class MovingBox:
   def __init__(self, color, position, direction, speed, limit):
@@ -40,6 +41,11 @@ class MovingBox:
     position_rounded = Vector2D(round(self.position.x), round(self.position.y))
     # print("position: ", self.position)
     # print("position_rounded: ", position_rounded)
+
+    # color_before = canvas[position_rounded]
+    # canvas[position_rounded] = canvas[position_rounded].mix_color_burn(self.color, 0.5)
+    # color_after = canvas[position_rounded]
+    # print("color_before: ", color_before, "color_after: ", color_after)
 
     canvas[position_rounded] = self.color
 
