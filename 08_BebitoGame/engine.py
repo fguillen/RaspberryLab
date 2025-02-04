@@ -33,6 +33,8 @@ class Engine:
     self.last_updated_at = time.time()
 
   def draw(self):
+    self._fade_out_pixels()
+
     for wanderer in self.wanderers:
       wanderer.draw(self.pixel_grid)
 
@@ -45,6 +47,12 @@ class Engine:
 
   def _random_color(self):
     return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+
+  def _fade_out_pixels(self):
+    for i in range(self.pixels.n):
+      color = self.pixels[i]
+      faded_color = tuple([int(c * 0.9) for c in color])
+      self.pixels[i] = faded_color
 
 # create a new Engine and call draw
 engine = Engine(Vector2D(7, 7))
