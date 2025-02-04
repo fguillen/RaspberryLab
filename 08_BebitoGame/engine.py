@@ -46,7 +46,7 @@ class Engine:
     # print("                          Delta: ", delta, "FPS: ", self.fps)
 
   def draw(self):
-    self._fade_out_pixels()
+    self.canvas.fade_out(self.fade_out_factor)
 
     for wanderer in self.wanderers:
       wanderer.draw(self.canvas)
@@ -64,12 +64,6 @@ class Engine:
     now = time.time()
     delta = now - self.last_updated_at
     return delta
-
-  def _fade_out_pixels(self):
-    for i in range(len(self.canvas.pixels)):
-      color = self.canvas.pixels[i]
-      faded_color = Color.from_rgb([int(c * self.fade_out_factor) for c in color.rgb()])
-      self.canvas.pixels[i] = faded_color
 
 # create a new Engine and call draw
 engine = Engine(Vector2D(7, 7))

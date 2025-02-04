@@ -5,7 +5,8 @@ class Canvas:
   def __init__(self, width, height):
     self.width = width
     self.height = height
-    self.pixels = []
+    self.size = width * height
+    self._pixels = []
     self.clear()
 
   """
@@ -19,11 +20,11 @@ class Canvas:
   """
   def __getitem__(self, position):
     if isinstance(position, int):
-      return self.pixels[position]
-    if isinstance(position, tuple):
-      return self.pixels[position[0] + position[1] * self.width]
-    if isinstance(position, Vector2D):
-      return self.pixels[position.x + position.y * self.width]
+      return self._pixels[position]
+    elif isinstance(position, tuple):
+      return self._pixels[position[0] + position[1] * self.width]
+    elif isinstance(position, Vector2D):
+      return self._pixels[position.x + position.y * self.width]
     else:
       raise TypeError("Invalid argument type in 'position': " + str(type(position)))
 
@@ -39,10 +40,20 @@ class Canvas:
     if not isinstance(color, Color):
       raise TypeError("Invalid argument type in 'color': " + str(type(color)))
 
-    self.pixels[position.x + position.y * self.width] = color
+    if isinstance(position, int):
+      self._pixels[position] = color
+    elif isinstance(position, tuple):
+      self._pixels[position[0] + position[1] * self.width] = color
+    elif isinstance(position, Vector2D):
+      self._pixels[position.x + position.y * self.width] = color
+    else:
+      raise TypeError("Invalid argument type in 'position': " + str(type(position)))
 
   def clear(self):
-    self.pixels = [Color(0, 0, 0) for _ in range(self.width * self.height)]
+    self._pixels = [Color(0, 0, 0) for _ in range(self.width * self.height)]
 
   def fill(self, color):
-    self.pixels = [color for _ in range(self.width * self.height)]
+    self._pixels = [color for _ in range(self.width * self.height)]
+
+  def fade_out(self, factor):
+    self._pixels = [color.fade_out(factor) for color in self._pixels]
