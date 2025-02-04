@@ -14,18 +14,8 @@ class Wanderer(MovingBox):
     super().__init__(color, position, direction, speed, limit)
 
   def _random_position(self, limit):
-    border_positions = []
-    for row in [0, limit.y]:
-      for col in range(0, limit.x + 1):
-        border_positions.append(Vector2D(col, row))
-
-    for row in range(0, limit.y + 1):
-      for col in [0, limit.x]:
-        border_positions.append(Vector2D(col, row))
-
-    border_positions = list(set(border_positions)) # remove duplicates
+    border_positions = self._border_positions(limit)
     position = random.choice(border_positions)
-
     return position
 
   def _random_direction(self, position, limit):
@@ -47,3 +37,16 @@ class Wanderer(MovingBox):
         next_position.x <= self.limit.x and
         next_position.y >= 0 and
         next_position.y <= self.limit.y)
+
+  def _border_positions(self, limit):
+    border_positions = []
+    for row in [0, limit.y]:
+      for col in range(0, limit.x + 1):
+        border_positions.append(Vector2D(col, row))
+
+    for row in range(0, limit.y + 1):
+      for col in [0, limit.x]:
+        border_positions.append(Vector2D(col, row))
+
+    border_positions = list(set(border_positions)) # remove duplicates
+    return border_positions
