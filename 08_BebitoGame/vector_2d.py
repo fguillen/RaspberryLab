@@ -12,6 +12,12 @@ class Vector2D:
   def normalize(self):
     return Vector2D(self.x / self.length(), self.y / self.length())
 
+  def rotate_90_degrees_clockwise(self):
+    return Vector2D(self.y, -self.x)
+
+  def rotate_90_degrees_counterclock(self):
+    return Vector2D(-self.y, self.x)
+
   def length(self):
     return (self.x ** 2 + self.y ** 2) ** 0.5
 

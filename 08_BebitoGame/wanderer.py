@@ -35,13 +35,15 @@ class Wanderer(MovingBox):
       return random.choice([Vector2D(0, 1), Vector2D(0, -1)])
 
   def on_collision(self):
-    if self.position.x == 0 and self.direction.y < 0:
-      self.direction = Vector2D(1, 0)
-    elif self.position.x == self.limit.x and self.direction.y > 0:
-      self.direction = Vector2D(-1, 0)
-    elif self.position.y == 0 and self.direction.x < 0:
-      self.direction = Vector2D(0, 1)
-    elif self.position.y == self.limit.y and self.direction.x > 0:
-      self.direction = Vector2D(0, -1)
+    new_direction = self.direction.rotate_90_degrees_clockwise()
+    if self._is_valid_direction(new_direction):
+      self.direction = new_direction
+    else:
+      self.direction = self.direction.rotate_90_degrees_counterclock()
 
-    print("on_collision", self.position, self.direction)
+  def _is_valid_direction(self, direction):
+    next_position = self.position + direction
+    return (next_position.x >= 0 and
+        next_position.x <= self.limit.x and
+        next_position.y >= 0 and
+        next_position.y <= self.limit.y)
