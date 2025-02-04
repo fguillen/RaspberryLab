@@ -1,6 +1,7 @@
 import time
 
 from vector_2d import Vector2D
+from canvas import Canvas
 
 class MovingBox:
   def __init__(self, color, position, direction, speed, limit):
@@ -29,12 +30,18 @@ class MovingBox:
       self.position.y = self.limit.y
       self.on_collision()
 
-  def draw(self, pixel_grid):
+  """
+  Draws the object on the given canvas.
+
+  Args:
+    canvas (Canvas): The canvas to draw on.
+  """
+  def draw(self, canvas):
     position_rounded = Vector2D(round(self.position.x), round(self.position.y))
     # print("position: ", self.position)
     # print("position_rounded: ", position_rounded)
 
-    pixel_grid[position_rounded.x, position_rounded.y] = self.color
+    canvas[position_rounded] = self.color
 
 
 
