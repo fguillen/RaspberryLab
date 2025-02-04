@@ -4,10 +4,10 @@ from vector_2d import Vector2D
 from moving_box import MovingBox
 
 class Wanderer(MovingBox):
-  def __init__(self, color, limit):
+  def __init__(self, color, limit, speed=10):
     position = self._random_position(limit)
     direction = self._random_direction(position, limit)
-    speed = 10
+    speed = speed
 
     print("Wanderer.__init__", position, direction, speed)
 

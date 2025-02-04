@@ -30,8 +30,6 @@ class MovingBox:
       self.on_collision()
 
   def draw(self, pixel_grid):
-
-
     position_rounded = Vector2D(round(self.position.x), round(self.position.y))
     # print("position: ", self.position)
     # print("position_rounded: ", position_rounded)

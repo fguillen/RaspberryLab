@@ -19,18 +19,25 @@ class Engine:
     self.board = BoardMock()
     self.pixels = NeoPixelMock(self.board.D10, 64, auto_write=False, rows=8)
     self.pixel_grid = PixelGrid(self.pixels, 8, 8, orientation=HORIZONTAL, alternating=False)
+    self.fps = 0
 
     self.last_updated_at = time.time()
 
-  def add_wanderer(self):
-    wanderer = Wanderer(self._random_color(), self.limit)
+  def add_wanderer(self, speed=10):
+    wanderer = Wanderer(self._random_color(), self.limit, speed)
     self.wanderers.append(wanderer)
 
   def update(self):
     for wanderer in self.wanderers:
       wanderer.update(self._delta())
 
+    delta = self._delta()
+
+    if delta > 0:
+      self.fps = 1 / delta
+
     self.last_updated_at = time.time()
+    print("                          Delta: ", delta, "FPS: ", self.fps)
 
   def draw(self):
     self._fade_out_pixels()
@@ -49,14 +56,15 @@ class Engine:
     return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
   def _fade_out_pixels(self):
-    for i in range(self.pixels.n):
-      color = self.pixels[i]
-      faded_color = tuple([int(c * 0.9) for c in color])
-      self.pixels[i] = faded_color
+    for x in range(self.pixel_grid.width):
+      for y in range(self.pixel_grid.height):
+        color = self.pixel_grid[x][y]
+        faded_color = tuple([int(c * 0.9) for c in color])
+        self.pixel_grid[x, y] = faded_color
 
 # create a new Engine and call draw
 engine = Engine(Vector2D(7, 7))
-engine.add_wanderer()
+engine.add_wanderer(speed=20)
 
 while True:
   engine.update()
