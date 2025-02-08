@@ -45,6 +45,9 @@ class Color:
   def rgb(self):
     return (self.r, self.g, self.b)
 
+  def rgb_rounded(self):
+    return [int(e) for e in self.rgb()]
+
   def __str__(self):
     return f"({self.r}, {self.g}, {self.b})"
 

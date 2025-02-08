@@ -1,12 +1,12 @@
 import time
 import random
 
-# import board
-# import neopixel
+import board
+import neopixel
 from adafruit_led_animation.grid import PixelGrid, VERTICAL, HORIZONTAL
 
-from neopixel_mock.neopixel_mock import NeoPixelMock
-from neopixel_mock.board_mock import BoardMock
+# from neopixel_mock.neopixel_mock import NeoPixelMock
+# from neopixel_mock.board_mock import BoardMock
 
 from vector_2d import Vector2D
 from wanderer import Wanderer
@@ -20,9 +20,9 @@ class Engine:
     self.limit = limit
     self.wanderers = []
 
-    self.board = BoardMock()
-    self.leds = NeoPixelMock(self.board.D10, 64, auto_write=False, rows=8)
-    self.pixel_grid = PixelGrid(self.leds, 8, 8, orientation=HORIZONTAL, alternating=False)
+    self.board = board
+    self.leds = neopixel.NeoPixel(self.board.D10, 64, brightness=0.2, auto_write=False)
+    self.pixel_grid = PixelGrid(self.leds, 8, 8, orientation=HORIZONTAL, alternating=True)
     self.fps = 0
     self.fade_out_factor = 0.95
     self.canvas = Canvas(8, 8)
@@ -55,7 +55,7 @@ class Engine:
     for x in range(self.pixel_grid.width):
       for y in range(self.pixel_grid.height):
         color = self.canvas[x, y]
-        self.pixel_grid[x, y] = color.rgb()
+        self.pixel_grid[x, y] = color.rgb_rounded()
 
     self.pixel_grid.show()
 
@@ -69,8 +69,8 @@ engine = Engine(Vector2D(7, 7))
 engine.add_wanderer(speed=random.randint(5, 15))
 engine.add_wanderer(speed=random.randint(5, 15))
 engine.add_wanderer(speed=random.randint(5, 15))
-engine.add_wanderer(speed=random.randint(5, 15))
-engine.add_wanderer(speed=random.randint(5, 15))
+# engine.add_wanderer(speed=random.randint(5, 15))
+# engine.add_wanderer(speed=random.randint(5, 15))
 
 while True:
   engine.update()
