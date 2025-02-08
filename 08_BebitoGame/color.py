@@ -1,5 +1,7 @@
 import random
 
+from color_names import ColorNames
+
 class Color:
   def __init__(self, r, g, b):
     self.r = r
@@ -63,6 +65,11 @@ class Color:
   @staticmethod
   def from_rgb(rgb):
     return Color(rgb[0], rgb[1], rgb[2])
+
+  @staticmethod
+  def from_name(name):
+    rgb = getattr(ColorNames, name, (255, 255, 255))
+    return Color.from_rgb(rgb)
 
   @staticmethod
   def random():

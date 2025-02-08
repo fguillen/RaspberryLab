@@ -25,6 +25,7 @@ valuesButtons = {
 }
 
 
+print("GPIO.getmode():", GPIO.getmode(), GPIO.BCM, GPIO.BOARD)
 GPIO.setmode(GPIO.BOARD)
 
 for key in pinsButtons:

@@ -1,11 +1,6 @@
-Metadata-Version: 2.2
-Name: neopixel_mock
+Metadata-Version: 2.1
+Name: neopixel-mock
 Version: 0.1
 Summary: Mock development version for the Adafruit NeoPixel library
 Home-page: https://no-yet-url.com
 Author: Fernando Guillén Suárez
-Requires-Dist: adafruit-circuitpython-neopixel
-Dynamic: author
-Dynamic: home-page
-Dynamic: requires-dist
-Dynamic: summary

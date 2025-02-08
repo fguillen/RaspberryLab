@@ -3,7 +3,6 @@ import random
 
 import board
 import neopixel
-import RPi.GPIO as GPIO
 from adafruit_led_animation.grid import PixelGrid, VERTICAL, HORIZONTAL
 
 # from neopixel_mock.neopixel_mock import NeoPixelMock
@@ -14,10 +13,6 @@ from wanderer import Wanderer
 from button import Button
 from color import Color
 from canvas import Canvas
-
-print("GPIO.getmode():", GPIO.getmode(), GPIO.BCM, GPIO.BOARD)
-GPIO.cleanup()
-GPIO.setmode(GPIO.BOARD)
 
 class Engine:
   def __init__(self, limit):
@@ -36,8 +31,8 @@ class Engine:
 
     self._init_buttons()
 
-  def add_wanderer(self, speed=10):
-    wanderer = Wanderer(Color.random(), self.limit, speed)
+  def add_wanderer(self, color, speed=10):
+    wanderer = Wanderer(color, self.limit, speed)
     self.wanderers.append(wanderer)
 
   def update(self):
@@ -46,14 +41,22 @@ class Engine:
     for wanderer in self.wanderers:
       wanderer.update(self._delta())
 
+    for button in self.buttons:
+      button.update()
+
+      if button.pressed_in_the_last_frame:
+        print("button.pressend_in_the_last_frame")
+        self.canvas.fill(Color.from_name(button.name))
+
     if delta > 0:
       self.fps = 1 / delta
 
     self.last_updated_at = time.time()
-    # print("                          Delta: ", delta, "FPS: ", self.fps)
 
-    for button in self.buttons:
-      print(button)
+    # Debug
+    # print("                          Delta: ", delta, "FPS: ", self.fps)
+    # for button in self.buttons:
+    #   print(button)
 
   def draw(self):
     self.canvas.fade_out(self.fade_out_factor)
@@ -76,24 +79,20 @@ class Engine:
 
   def _init_buttons(self):
     pinsButtons = {
-      "red": 33,
-      "green": 35,
-      "blue": 37,
-      "white": 31
+        "maroon": 13,
+        "green": 19,
+        "teal": 26,
+        "white": 6
     }
 
     for key in pinsButtons:
-      button = Button(name=key, pin_on_board=pinsButtons[key])
+      button = Button(name=key, bcm_pin_num=pinsButtons[key])
       self.buttons.append(button)
+      self.add_wanderer(Color.from_name(key), speed=random.randint(5, 15))
 
 
 # create a new Engine and call draw
 engine = Engine(Vector2D(7, 7))
-engine.add_wanderer(speed=random.randint(5, 15))
-engine.add_wanderer(speed=random.randint(5, 15))
-engine.add_wanderer(speed=random.randint(5, 15))
-# engine.add_wanderer(speed=random.randint(5, 15))
-# engine.add_wanderer(speed=random.randint(5, 15))
 
 try:
   while True:
@@ -102,7 +101,7 @@ try:
     time.sleep(0.01)
 
 except KeyboardInterrupt:
-  for button in self.buttons:
+  for button in engine.buttons:
     button.on_destroy()
 
   print("bye!")
