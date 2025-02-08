@@ -4,24 +4,24 @@ import RPi.GPIO as GPIO
 delay = .05
 
 pinsButtons = {
-  "red": 31,
-  "green": 33,
-  "blue": 35,
-  "yellow": 37
+  "red": 33,
+  "green": 35,
+  "blue": 37,
+  "white": 31
 }
 
 pinsLeds = {
-  "red": 32,
+  "red": 38,
   "green": 36,
-  "blue": 38,
-  "yellow": 40
+  "blue": 32,
+  "white": 40
 }
 
 valuesButtons = {
   "red": 0,
   "green": 0,
   "blue": 0,
-  "yellow": 0
+  "white": 0
 }
 
 
@@ -41,6 +41,7 @@ try:
 
     for key in pinsLeds:
       GPIO.output(pinsLeds[key], valuesButtons[key])
+      # GPIO.output(pinsLeds[key], 1)
 
     print(valuesButtons)
 
