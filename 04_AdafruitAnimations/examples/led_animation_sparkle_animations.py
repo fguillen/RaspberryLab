@@ -28,7 +28,7 @@ sparkle_pulse = SparklePulse(pixels, speed=0.05, period=3, color=JADE)
 
 animations = AnimationSequence(
     sparkle,
-    sparkle_pulse,
+    # sparkle_pulse,
     advance_interval=5,
     auto_clear=True,
 )
