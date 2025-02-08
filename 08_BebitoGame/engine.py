@@ -3,6 +3,7 @@ import random
 
 import board
 import neopixel
+import RPi.GPIO as GPIO
 from adafruit_led_animation.grid import PixelGrid, VERTICAL, HORIZONTAL
 
 # from neopixel_mock.neopixel_mock import NeoPixelMock
@@ -10,15 +11,19 @@ from adafruit_led_animation.grid import PixelGrid, VERTICAL, HORIZONTAL
 
 from vector_2d import Vector2D
 from wanderer import Wanderer
+from button import Button
 from color import Color
 from canvas import Canvas
 
-
+print("GPIO.getmode():", GPIO.getmode(), GPIO.BCM, GPIO.BOARD)
+GPIO.cleanup()
+GPIO.setmode(GPIO.BOARD)
 
 class Engine:
   def __init__(self, limit):
     self.limit = limit
     self.wanderers = []
+    self.buttons = []
 
     self.board = board
     self.leds = neopixel.NeoPixel(self.board.D10, 64, brightness=0.2, auto_write=False)
@@ -28,6 +33,8 @@ class Engine:
     self.canvas = Canvas(8, 8)
 
     self.last_updated_at = time.time()
+
+    self._init_buttons()
 
   def add_wanderer(self, speed=10):
     wanderer = Wanderer(Color.random(), self.limit, speed)
@@ -44,6 +51,9 @@ class Engine:
 
     self.last_updated_at = time.time()
     # print("                          Delta: ", delta, "FPS: ", self.fps)
+
+    for button in self.buttons:
+      print(button)
 
   def draw(self):
     self.canvas.fade_out(self.fade_out_factor)
@@ -64,6 +74,19 @@ class Engine:
     delta = now - self.last_updated_at
     return delta
 
+  def _init_buttons(self):
+    pinsButtons = {
+      "red": 33,
+      "green": 35,
+      "blue": 37,
+      "white": 31
+    }
+
+    for key in pinsButtons:
+      button = Button(name=key, pin_on_board=pinsButtons[key])
+      self.buttons.append(button)
+
+
 # create a new Engine and call draw
 engine = Engine(Vector2D(7, 7))
 engine.add_wanderer(speed=random.randint(5, 15))
@@ -72,7 +95,14 @@ engine.add_wanderer(speed=random.randint(5, 15))
 # engine.add_wanderer(speed=random.randint(5, 15))
 # engine.add_wanderer(speed=random.randint(5, 15))
 
-while True:
-  engine.update()
-  engine.draw()
-  time.sleep(0.01)
+try:
+  while True:
+    engine.update()
+    engine.draw()
+    time.sleep(0.01)
+
+except KeyboardInterrupt:
+  for button in self.buttons:
+    button.on_destroy()
+
+  print("bye!")
