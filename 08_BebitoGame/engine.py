@@ -20,8 +20,7 @@ from canvas import Canvas
 delay = 0.01
 
 class Engine:
-  def __init__(self, limit):
-    self.limit = limit
+  def __init__(self):
     self.wanderers = []
     self.buttons = []
 
@@ -37,7 +36,7 @@ class Engine:
     self._init_buttons()
 
   def add_wanderer(self, color, speed=10):
-    wanderer = Wanderer(color, self.limit, speed)
+    wanderer = Wanderer(color, self.canvas, speed)
     self.wanderers.append(wanderer)
 
   def update(self):
@@ -58,7 +57,7 @@ class Engine:
     self.canvas.fade_out(self.fade_out_factor)
 
     for drawable in Drawable.all:
-      drawable.draw(self.canvas)
+      drawable.draw()
 
     # render Canvas to PixelGrid
     for x in range(self.pixel_grid.width):
@@ -100,7 +99,7 @@ class Engine:
 
 
 # create a new Engine and call draw
-engine = Engine(Vector2D(7, 7))
+engine = Engine()
 
 try:
   while True:

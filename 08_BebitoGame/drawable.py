@@ -6,5 +6,5 @@ class Drawable():
 
     super().__init__()
 
-  def draw(self, canvas):
+  def draw(self):
     pass
