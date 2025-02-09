@@ -1,18 +1,21 @@
 import time
 import random
 
-import board
-import neopixel
+# import board
+# import neopixel
 from adafruit_led_animation.grid import PixelGrid, VERTICAL, HORIZONTAL
 
-# from neopixel_mock.neopixel_mock import NeoPixelMock
-# from neopixel_mock.board_mock import BoardMock
+from neopixel_mock.neopixel_mock import NeoPixelMock
+from neopixel_mock.board_mock import BoardMock
 
 from vector_2d import Vector2D
 from wanderer import Wanderer
-from button import Button
+# from button import Button
+from button_mock import ButtonMock
 from color import Color
 from canvas import Canvas
+
+delay = 0.01
 
 class Engine:
   def __init__(self, limit):
@@ -20,9 +23,9 @@ class Engine:
     self.wanderers = []
     self.buttons = []
 
-    self.board = board
-    self.leds = neopixel.NeoPixel(self.board.D10, 64, brightness=0.2, auto_write=False)
-    self.pixel_grid = PixelGrid(self.leds, 8, 8, orientation=HORIZONTAL, alternating=True)
+    self.board = BoardMock()
+    self.leds = NeoPixelMock(self.board.D10, 64, brightness=0.5, auto_write=False, rows=8)
+    self.pixel_grid = PixelGrid(self.leds, 8, 8, orientation=HORIZONTAL, alternating=False)
     self.fps = 0
     self.fade_out_factor = 0.95
     self.canvas = Canvas(8, 8)
@@ -78,15 +81,22 @@ class Engine:
     return delta
 
   def _init_buttons(self):
-    pinsButtons = {
-        "maroon": 13,
-        "green": 19,
-        "teal": 26,
-        "white": 6
+    # pinsButtons = {
+    #     "maroon": 13,
+    #     "green": 19,
+    #     "teal": 26,
+    #     "white": 6
+    # }
+
+    keysButtons = {
+        "maroon": 14,
+        "green": 1,
+        "teal": 2,
+        "white": 3
     }
 
-    for key in pinsButtons:
-      button = Button(name=key, bcm_pin_num=pinsButtons[key])
+    for key in keysButtons:
+      button = ButtonMock(name=key, key=keysButtons[key])
       self.buttons.append(button)
       self.add_wanderer(Color.from_name(key), speed=random.randint(5, 15))
 
@@ -98,7 +108,7 @@ try:
   while True:
     engine.update()
     engine.draw()
-    time.sleep(0.01)
+    time.sleep(delay)
 
 except KeyboardInterrupt:
   for button in engine.buttons:

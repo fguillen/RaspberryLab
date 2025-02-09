@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO
+
 
 class Button:
   def __init__(self, name, bcm_pin_num):
@@ -7,10 +7,10 @@ class Button:
     self.value = 0
     self.pressed_in_the_last_frame = False
 
-    GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    self._setup_gpio()
 
   def update(self):
-    pinValue = GPIO.input(self.pin)
+    pinValue = self._load_value()
 
     if pinValue == 1 and self.value == 0:
       print("pressend_in_the_last_frame")
@@ -25,3 +25,10 @@ class Button:
 
   def __str__(self):
     return f"Button[{self.name}]:{self.value}"
+
+  def _load_value(self):
+    return GPIO.input(self.pin)
+
+  def _setup_gpio(self):
+    import RPi.GPIO as GPIO
+    GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
