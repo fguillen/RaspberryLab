@@ -2,9 +2,9 @@ from button import Button
 import keyboard
 
 class ButtonMock(Button):
-  def __init__(self, name, key):
+  def __init__(self, name, key, on_button_pressed=None):
     self.key = key
-    super().__init__(name, bcm_pin_num=0)
+    super().__init__(name, bcm_pin_num=0, on_button_pressed=on_button_pressed)
 
   def on_destroy(self):
     pass

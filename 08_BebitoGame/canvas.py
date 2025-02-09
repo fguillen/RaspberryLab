@@ -52,7 +52,6 @@ class Canvas:
     self._pixels = [Color(0, 0, 0) for _ in range(self.width * self.height)]
 
   def fill(self, color):
-    print("Canvas.fill:", color)
     self._pixels = [color for _ in range(self.width * self.height)]
 
   def fade_out(self, factor):

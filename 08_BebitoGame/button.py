@@ -1,11 +1,12 @@
 from updatable import Updatable
 
 class Button(Updatable):
-  def __init__(self, name, bcm_pin_num):
+  def __init__(self, name, bcm_pin_num, on_button_pressed=None):
     self.name = name
     self.pin = bcm_pin_num
     self.value = 0
     self.pressed_in_the_last_frame = False
+    self.on_button_pressed = on_button_pressed
 
     self._setup_gpio()
 
@@ -15,10 +16,9 @@ class Button(Updatable):
     pinValue = self._load_value()
 
     if pinValue == 1 and self.value == 0:
-      print("pressend_in_the_last_frame")
-      self.pressed_in_the_last_frame = True
-    else:
-      self.pressed_in_the_last_frame = False
+      # Button pressed in the last frame
+      if self.on_button_pressed:
+        self.on_button_pressed()
 
     self.value = pinValue
 

@@ -46,11 +46,6 @@ class Engine:
     for updatable in Updatable.all:
       updatable.update(self._delta())
 
-    for button in self.buttons:
-      if button.pressed_in_the_last_frame:
-        print("button.pressend_in_the_last_frame")
-        self.canvas.fill(Color.from_name(button.name))
-
     if delta > 0:
       self.fps = 1 / delta
 
@@ -58,8 +53,6 @@ class Engine:
 
     # Debug
     # print("                          Delta: ", delta, "FPS: ", self.fps)
-    # for button in self.buttons:
-    #   print(button)
 
   def draw(self):
     self.canvas.fade_out(self.fade_out_factor)
@@ -96,9 +89,14 @@ class Engine:
     }
 
     for key in keysButtons:
-      button = ButtonMock(name=key, key=keysButtons[key])
+      button = ButtonMock(
+          name=key,
+          key=keysButtons[key],
+          on_button_pressed=lambda frozen_key=key: self.canvas.fill(Color.from_name(frozen_key))
+      )
       self.buttons.append(button)
       self.add_wanderer(Color.from_name(key), speed=random.randint(5, 15))
+
 
 
 # create a new Engine and call draw
