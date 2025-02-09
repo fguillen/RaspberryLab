@@ -1,16 +1,20 @@
 import time
 
+from updatable import Updatable
+from drawable import Drawable
 from vector_2d import Vector2D
 from canvas import Canvas
 from color import Color
 
-class MovingBox:
+class MovingBox(Updatable, Drawable):
   def __init__(self, color, position, direction, speed, limit):
     self.color = color
     self.position = position
     self.direction = direction
     self.speed = speed
     self.limit = limit
+
+    super().__init__()
 
   def update(self, delta = 1.0):
     self.position += self.direction * (self.speed * delta)

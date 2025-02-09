@@ -8,6 +8,8 @@ from adafruit_led_animation.grid import PixelGrid, VERTICAL, HORIZONTAL
 from neopixel_mock.neopixel_mock import NeoPixelMock
 from neopixel_mock.board_mock import BoardMock
 
+from updatable import Updatable
+from drawable import Drawable
 from vector_2d import Vector2D
 from wanderer import Wanderer
 # from button import Button
@@ -41,12 +43,10 @@ class Engine:
   def update(self):
     delta = self._delta()
 
-    for wanderer in self.wanderers:
-      wanderer.update(self._delta())
+    for updatable in Updatable.all:
+      updatable.update(self._delta())
 
     for button in self.buttons:
-      button.update()
-
       if button.pressed_in_the_last_frame:
         print("button.pressend_in_the_last_frame")
         self.canvas.fill(Color.from_name(button.name))
@@ -64,8 +64,8 @@ class Engine:
   def draw(self):
     self.canvas.fade_out(self.fade_out_factor)
 
-    for wanderer in self.wanderers:
-      wanderer.draw(self.canvas)
+    for drawable in Drawable.all:
+      drawable.draw(self.canvas)
 
     # render Canvas to PixelGrid
     for x in range(self.pixel_grid.width):

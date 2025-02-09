@@ -1,6 +1,6 @@
+from updatable import Updatable
 
-
-class Button:
+class Button(Updatable):
   def __init__(self, name, bcm_pin_num):
     self.name = name
     self.pin = bcm_pin_num
@@ -9,7 +9,9 @@ class Button:
 
     self._setup_gpio()
 
-  def update(self):
+    super().__init__()
+
+  def update(self, delta):
     pinValue = self._load_value()
 
     if pinValue == 1 and self.value == 0:
