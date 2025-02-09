@@ -2,16 +2,25 @@ import random
 
 from vector_2d import Vector2D
 from moving_box import MovingBox
+# from button import Button
+from button_mock import ButtonMock
+from color import Color
+from rocket import Rocket
 
 class Wanderer(MovingBox):
-  def __init__(self, color, canvas, speed=10):
+  def __init__(self, name, canvas, speed, bcm_pin_num):
     position = self._random_position(canvas)
     direction = self._random_direction(position, canvas)
     speed = speed
 
+    self.name = name
+    self.bcm_pin_num = bcm_pin_num
     self.canvas = canvas
+    self.button = self._init_button()
+    self.color = Color.from_name(self.name)
+    self.button = self._init_button()
 
-    super().__init__(color, position, direction, speed, canvas=self.canvas)
+    super().__init__(self.color, position, direction, speed, canvas=self.canvas)
 
   def _random_position(self, canvas):
     border_positions = self._border_positions(canvas)
@@ -50,3 +59,16 @@ class Wanderer(MovingBox):
 
     border_positions = list(set(border_positions)) # remove duplicates
     return border_positions
+
+  def _init_button(self):
+    button = ButtonMock(
+        name=self.name,
+        key=self.bcm_pin_num,
+        on_button_pressed=lambda: self._launch_rocket()
+    )
+
+    return button
+
+  def _launch_rocket(self):
+    print("Launch_rocket:", self.name)
+    Rocket(self.color, self.position_rounded(), self.canvas)

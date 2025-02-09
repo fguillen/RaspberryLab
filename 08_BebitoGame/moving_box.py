@@ -42,17 +42,19 @@ class MovingBox(Updatable, Drawable):
     canvas (Canvas): The canvas to draw on.
   """
   def draw(self):
-    position_rounded = Vector2D(round(self.position.x), round(self.position.y))
-    print("position: ", self.position)
-    print("position_rounded: ", position_rounded)
-
     # color_before = canvas[position_rounded]
     # canvas[position_rounded] = canvas[position_rounded].mix_color_burn(self.color, 0.5)
     # color_after = canvas[position_rounded]
     # print("color_before: ", color_before, "color_after: ", color_after)
 
-    self.canvas[position_rounded] = self.color
+    self.canvas[self.position_rounded()] = self.color
 
   def on_collision(self):
     self.direction = Vector2D(0, 0)
     self.speed = 0
+
+  def position_rounded(self):
+    result = Vector2D(round(self.position.x), round(self.position.y))
+    result.x = max(0, min(result.x, self.canvas.width - 1))
+    result.y = max(0, min(result.y, self.canvas.height - 1))
+    return result

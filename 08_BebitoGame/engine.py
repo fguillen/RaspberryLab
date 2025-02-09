@@ -33,11 +33,8 @@ class Engine:
 
     self.last_updated_at = time.time()
 
-    self._init_buttons()
+    self._init_wanderers()
 
-  def add_wanderer(self, color, speed=10):
-    wanderer = Wanderer(color, self.canvas, speed)
-    self.wanderers.append(wanderer)
 
   def update(self):
     delta = self._delta()
@@ -72,7 +69,7 @@ class Engine:
     delta = now - self.last_updated_at
     return delta
 
-  def _init_buttons(self):
+  def _init_wanderers(self):
     # pinsButtons = {
     #     "maroon": 13,
     #     "green": 19,
@@ -80,23 +77,19 @@ class Engine:
     #     "white": 6
     # }
 
-    keysButtons = {
+    keys_buttons = {
         "maroon": 14,
         "green": 1,
         "teal": 2,
         "white": 3
     }
 
-    for key in keysButtons:
-      button = ButtonMock(
-          name=key,
-          key=keysButtons[key],
-          on_button_pressed=lambda frozen_key=key: self.canvas.fill(Color.from_name(frozen_key))
-      )
-      self.buttons.append(button)
-      self.add_wanderer(Color.from_name(key), speed=random.randint(5, 15))
+    for key in keys_buttons:
+      self._add_wanderer(key, speed=random.randint(5, 15), bcm_pin_num=keys_buttons[key])
 
-
+  def _add_wanderer(self, name, speed, bcm_pin_num):
+    wanderer = Wanderer(name, self.canvas, speed, bcm_pin_num)
+    self.wanderers.append(wanderer)
 
 # create a new Engine and call draw
 engine = Engine()
