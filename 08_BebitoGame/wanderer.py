@@ -19,7 +19,7 @@ class Wanderer(MovingBox):
     self.button = self._init_button()
     self.color = Color.from_name(self.name)
 
-    super().__init__(self.color, position, direction, speed, canvas=self.canvas)
+    super().__init__(self.color, position, direction, speed, canvas=self.canvas, on_collision=self.on_collision)
 
   def _random_position(self, canvas):
     border_positions = self._border_positions(canvas)
@@ -69,5 +69,4 @@ class Wanderer(MovingBox):
     return button
 
   def _launch_rocket(self):
-    print("Launch_rocket:", self.name)
     Rocket(self.color, self.position.round(), self.canvas)

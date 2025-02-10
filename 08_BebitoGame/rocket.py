@@ -3,6 +3,7 @@ import random
 from updatable import Updatable
 from drawable import Drawable
 from moving_box import MovingBox
+from explosion import Explosion
 from vector_2d import Vector2D
 
 class Rocket(Updatable):
@@ -19,9 +20,8 @@ class Rocket(Updatable):
     super().__init__()
 
   def update(self, delta = 1.0):
-    print("position:", self.moving_box.position.round(), "explosion:", self.explosion_position)
     if self.moving_box.position.round() == self.explosion_position:
-      print("Explosion at position:", self.moving_box.position.round())
+      Explosion(self.color, self.moving_box.position, self.speed, self.canvas)
       self.moving_box.destroy()
       Updatable.destroy(self)
 
@@ -44,5 +44,4 @@ class Rocket(Updatable):
   def _calculate_explosion_position(self):
     steps = random.randint(1, 7) # 1 to 6
     result = self.position + (self.direction * steps)
-    print("                            _calculate_explosion_position.result:", result)
     return result
