@@ -14,7 +14,8 @@ class MovingBox(Updatable, Drawable):
     self.speed = speed
     self.canvas = canvas
 
-    super().__init__()
+    Updatable.__init__(self)
+    Drawable.__init__(self)
 
   def update(self, delta = 1.0):
     self.position += self.direction * (self.speed * delta)
@@ -47,14 +48,12 @@ class MovingBox(Updatable, Drawable):
     # color_after = canvas[position_rounded]
     # print("color_before: ", color_before, "color_after: ", color_after)
 
-    self.canvas[self.position_rounded()] = self.color
+    self.canvas[self.position.round()] = self.color
 
   def on_collision(self):
     self.direction = Vector2D(0, 0)
     self.speed = 0
 
-  def position_rounded(self):
-    result = Vector2D(round(self.position.x), round(self.position.y))
-    result.x = max(0, min(result.x, self.canvas.width - 1))
-    result.y = max(0, min(result.y, self.canvas.height - 1))
-    return result
+  def destroy(self):
+    Updatable.destroy(self)
+    Drawable.destroy(self)

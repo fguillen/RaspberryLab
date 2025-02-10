@@ -18,7 +18,6 @@ class Wanderer(MovingBox):
     self.canvas = canvas
     self.button = self._init_button()
     self.color = Color.from_name(self.name)
-    self.button = self._init_button()
 
     super().__init__(self.color, position, direction, speed, canvas=self.canvas)
 
@@ -71,4 +70,4 @@ class Wanderer(MovingBox):
 
   def _launch_rocket(self):
     print("Launch_rocket:", self.name)
-    Rocket(self.color, self.position_rounded(), self.canvas)
+    Rocket(self.color, self.position.round(), self.canvas)

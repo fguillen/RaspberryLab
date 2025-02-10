@@ -4,7 +4,8 @@ class Updatable():
   def __init__(self):
     Updatable.all.append(self)
 
-    super().__init__()
-
   def update(self, delta):
     pass
+
+  def destroy(self):
+    Updatable.all.remove(self)
