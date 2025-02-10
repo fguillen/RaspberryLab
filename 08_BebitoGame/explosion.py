@@ -16,6 +16,8 @@ class Explosion(Updatable, Drawable):
     Updatable.__init__(self)
     Drawable.__init__(self)
 
+    self.canvas.fill(self.color)
+
   def _create_moving_boxes(self):
     directions = [
       [0, 1],
