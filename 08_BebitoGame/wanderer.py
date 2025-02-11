@@ -11,7 +11,6 @@ class Wanderer(MovingBox):
   def __init__(self, name, canvas, speed, bcm_pin_num):
     position = self._random_position(canvas)
     direction = self._random_direction(position, canvas)
-    speed = speed
 
     self.name = name
     self.bcm_pin_num = bcm_pin_num

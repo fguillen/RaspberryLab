@@ -12,6 +12,9 @@ class Button(Updatable):
 
     super().__init__()
 
+  def set_on_button_pressed(self, callback):
+    self.on_button_pressed = callback
+
   def update(self, delta):
     pinValue = self._load_value()
 
