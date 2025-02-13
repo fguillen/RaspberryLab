@@ -21,7 +21,7 @@ class Engine():
     self.pulsatings = []
 
     self.board = board
-    self.leds = neopixel.NeoPixel(self.board.D10, 64, brightness=0.05, auto_write=False)
+    self.leds = neopixel.NeoPixel(self.board.D10, 64, brightness=0.02, auto_write=False)
     self.pixel_grid = PixelGrid(self.leds, 8, 8, orientation=HORIZONTAL, alternating=True)
     self.fps = 0
     self.fade_out_factor = 0.95
