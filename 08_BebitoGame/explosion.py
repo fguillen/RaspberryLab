@@ -6,7 +6,7 @@ from moving_box import MovingBox
 from vector_2d import Vector2D
 
 class Explosion(Updatable, Drawable):
-  def __init__(self, color, position, speed, canvas, duration=0.1):
+  def __init__(self, color, position, speed, canvas, duration=0.05):
     self.color = color
     self.position = position
     self.canvas = canvas
@@ -18,7 +18,7 @@ class Explosion(Updatable, Drawable):
     Drawable.__init__(self)
 
   def draw(self):
-    self.canvas.fill(self.color)
+    self.canvas.fill(self.color.fade_out(0.6))
 
   def update(self, delta):
     if time.time() > self.started_at + self.duration:

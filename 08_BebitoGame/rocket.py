@@ -42,6 +42,6 @@ class Rocket(Updatable):
     raise ValueError("Rocket position is not on the edge of the canvas:", str(self.position))
 
   def _calculate_explosion_position(self):
-    steps = random.randint(1, 7) # 1 to 6
+    steps = random.randint(4, 7) # 1 to 6
     result = self.position + (self.direction * steps)
     return result
