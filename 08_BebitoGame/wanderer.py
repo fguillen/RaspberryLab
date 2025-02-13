@@ -2,8 +2,8 @@ import random
 
 from vector_2d import Vector2D
 from moving_box import MovingBox
-# from button import Button
-from button_mock import ButtonMock
+from button import Button
+# from button_mock import ButtonMock
 from color import Color
 from rocket import Rocket
 
@@ -64,9 +64,9 @@ class Wanderer(MovingBox):
     return border_positions
 
   def _init_button(self):
-    button = ButtonMock(
+    button = Button(
         name=self.name,
-        key=self.bcm_pin_num,
+        bcm_pin_num=self.bcm_pin_num,
         on_button_pressed=lambda: self._on_button_pressed()
     )
 

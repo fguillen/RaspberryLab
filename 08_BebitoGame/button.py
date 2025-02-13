@@ -1,3 +1,5 @@
+import RPi.GPIO as GPIO
+
 from updatable import Updatable
 
 class Button(Updatable):
@@ -26,18 +28,15 @@ class Button(Updatable):
     self.value = pinValue
 
   def destroy(self):
-    self._clean_gpio()
     Updatable.destroy(self)
-
-  def _clean_gpio(self):
-    GPIO.cleanup(self.pin)
 
   def __str__(self):
     return f"Button[{self.name}]:{self.value}"
 
   def _load_value(self):
+    GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     return GPIO.input(self.pin)
 
   def _setup_gpio(self):
-    import RPi.GPIO as GPIO
+    GPIO.cleanup(self.pin)
     GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)

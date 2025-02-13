@@ -3,7 +3,8 @@ import time
 from updatable import Updatable
 from drawable import Drawable
 from vector_2d import Vector2D
-from button_mock import ButtonMock
+# from button_mock import ButtonMock
+from button import Button
 from color import Color
 
 class Pulsating(Updatable, Drawable):
@@ -50,9 +51,9 @@ class Pulsating(Updatable, Drawable):
     self.destroy()
 
   def _init_button(self):
-    button = ButtonMock(
+    button = Button(
         name=self.name,
-        key=self.bcm_pin_num,
+        bcm_pin_num=self.bcm_pin_num,
         on_button_pressed=lambda: self._launch_rocket()
     )
 

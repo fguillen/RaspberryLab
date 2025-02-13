@@ -1,12 +1,12 @@
 import time
 import random
 
-# import board
-# import neopixel
+import board
+import neopixel
 from adafruit_led_animation.grid import PixelGrid, VERTICAL, HORIZONTAL
 
-from neopixel_mock.neopixel_mock import NeoPixelMock
-from neopixel_mock.board_mock import BoardMock
+# from neopixel_mock.neopixel_mock import NeoPixelMock
+# from neopixel_mock.board_mock import BoardMock
 
 from config import pins_buttons
 from updatable import Updatable
@@ -20,9 +20,9 @@ class Engine():
     self.wanderers = []
     self.pulsatings = []
 
-    self.board = BoardMock()
-    self.leds = NeoPixelMock(self.board.D10, 64, brightness=0.5, auto_write=False, rows=8)
-    self.pixel_grid = PixelGrid(self.leds, 8, 8, orientation=HORIZONTAL, alternating=False)
+    self.board = board
+    self.leds = neopixel.NeoPixel(self.board.D10, 64, brightness=0.1, auto_write=False)
+    self.pixel_grid = PixelGrid(self.leds, 8, 8, orientation=HORIZONTAL, alternating=True)
     self.fps = 0
     self.fade_out_factor = 0.95
     self.canvas = Canvas(8, 8)
