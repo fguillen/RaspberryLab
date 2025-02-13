@@ -6,9 +6,6 @@ class ButtonMock(Button):
     self.key = key
     super().__init__(name, bcm_pin_num=0, on_button_pressed=on_button_pressed)
 
-  def on_destroy(self):
-    pass
-
   def __str__(self):
     return f"Button[{self.name}]:{self.value}"
 
@@ -18,4 +15,7 @@ class ButtonMock(Button):
     return value
 
   def _setup_gpio(self):
+    pass
+
+  def _clean_gpio(self):
     pass

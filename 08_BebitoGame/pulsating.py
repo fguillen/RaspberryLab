@@ -38,6 +38,7 @@ class Pulsating(Updatable, Drawable):
       self.canvas[pixel] = self.color
 
   def destroy(self):
+    self.button.destroy()
     Updatable.destroy(self)
     Drawable.destroy(self)
 

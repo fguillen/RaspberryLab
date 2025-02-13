@@ -17,6 +17,7 @@ class Wanderer(MovingBox):
     self.canvas = canvas
     self.button = self._init_button()
     self.color = Color.from_name(self.name)
+    self.active = False
 
     super().__init__(self.color, position, direction, speed, canvas=self.canvas, on_collision=self.on_collision)
 
@@ -30,6 +31,10 @@ class Wanderer(MovingBox):
       return random.choice([Vector2D(1, 0), Vector2D(-1, 0)])
     else:
       return random.choice([Vector2D(0, 1), Vector2D(0, -1)])
+
+  def set_active(self, value):
+    self.canvas.fill(self.color)
+    self.active = True
 
   def on_collision(self):
     new_direction = self.direction.rotate_90_degrees_clockwise()
@@ -62,10 +67,14 @@ class Wanderer(MovingBox):
     button = ButtonMock(
         name=self.name,
         key=self.bcm_pin_num,
-        on_button_pressed=lambda: self._launch_rocket()
+        on_button_pressed=lambda: self._on_button_pressed()
     )
 
     return button
+
+  def _on_button_pressed(self):
+    if self.active:
+      self._launch_rocket()
 
   def _launch_rocket(self):
     Rocket(self.color, self.position.round(), self.canvas)

@@ -10,7 +10,7 @@ class Button(Updatable):
 
     self._setup_gpio()
 
-    super().__init__()
+    Updatable.__init__(self)
 
   def set_on_button_pressed(self, callback):
     self.on_button_pressed = callback
@@ -25,7 +25,11 @@ class Button(Updatable):
 
     self.value = pinValue
 
-  def on_destroy(self):
+  def destroy(self):
+    self._clean_gpio()
+    Updatable.destroy(self)
+
+  def _clean_gpio(self):
     GPIO.cleanup(self.pin)
 
   def __str__(self):

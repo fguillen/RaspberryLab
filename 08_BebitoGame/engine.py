@@ -64,6 +64,10 @@ class Engine():
 
     self.pixel_grid.show()
 
+  def init_wander(self, key):
+    wanderer = Wanderer(key, self.canvas, speed=random.randint(5, 15), bcm_pin_num=pins_buttons[key])
+    self.wanderers.append(wanderer)
+
   def _delta(self):
     now = time.time()
     delta = now - self.last_updated_at
@@ -75,8 +79,12 @@ class Engine():
       self.wanderers.append(wanderer)
 
   def _init_pulsating_sequence(self):
-    pulsating = PulsatingSequence("green", self.canvas)
+    pulsating_sequence = PulsatingSequence("green", self.canvas, self, on_completed=lambda: self._activate_wanderers())
 
     # for key in self.pins_buttons:
     #   pulsating = Pulsating(key, self.canvas, bcm_pin_num=self.pins_buttons[key])
     #   self.pulsatings.append(pulsating)
+
+  def _activate_wanderers(self):
+    for wander in self.wanderers:
+      wander.set_active(True)
