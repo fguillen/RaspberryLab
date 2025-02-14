@@ -30,8 +30,8 @@ class Engine():
     self.canvas = Canvas(8, 8)
     self.last_updated_at = time.time()
 
-    self._check_elements()
-    # self._init_pulsating_sequence()
+    # self._check_elements()
+    self._init_pulsating_sequence()
     # self._init_led()
 
 

@@ -30,8 +30,8 @@ class CheckElements(Updatable, Drawable):
 
   def _next_color(self):
     if self.actual_color_name != None:
-      self.elements[self.actual_color_name]["led"].destroy
-      self.elements[self.actual_color_name]["button"].destroy
+      self.elements[self.actual_color_name]["led"].destroy()
+      self.elements[self.actual_color_name]["button"].destroy()
 
     self.actual_color_name = next(self.color_names_iterator, None)
 
@@ -53,6 +53,7 @@ class CheckElements(Updatable, Drawable):
 
     if time.time() > self.test_screen_started_at + self.test_screen_seconds:
       self.on_complete()
+      self.destroy()
 
 
   def draw(self):
@@ -60,6 +61,12 @@ class CheckElements(Updatable, Drawable):
       return
 
     self.canvas.fill(Color.from_name("magenta"))
+
+
+  def destroy(self):
+    Updatable.destroy(self)
+    Drawable.destroy(self)
+
 
 
   def _init_buttons(self):

@@ -14,7 +14,7 @@ class PulsatingSequence():
   def _next_pulsating(self):
     self.actual_pulsating_index += 1
     name = list(pins_buttons)[self.actual_pulsating_index]
-    pulsating = Pulsating(name, self.canvas, bcm_pin_num=pins_buttons[name])
+    pulsating = Pulsating(name, self.canvas)
     pulsating.set_on_completed(lambda p=pulsating: self._pulsating_completed(p))
 
   def _pulsating_completed(self, pulsating):
