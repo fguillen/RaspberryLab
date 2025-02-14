@@ -34,7 +34,6 @@ class Button(Updatable):
     return f"Button[{self.name}]:{self.value}"
 
   def _load_value(self):
-    GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     return GPIO.input(self.pin)
 
   def _setup_gpio(self):

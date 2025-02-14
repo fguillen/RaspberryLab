@@ -8,12 +8,13 @@ from adafruit_led_animation.grid import PixelGrid, VERTICAL, HORIZONTAL
 # from neopixel_mock.neopixel_mock import NeoPixelMock
 # from neopixel_mock.board_mock import BoardMock
 
-from config import pins_buttons
+from config import pins_buttons, pins_leds
 from updatable import Updatable
 from drawable import Drawable
 from wanderer import Wanderer
 from canvas import Canvas
 from pulsating_sequence import PulsatingSequence
+from led import Led
 
 class Engine():
   def __init__(self):
@@ -26,14 +27,10 @@ class Engine():
     self.fps = 0
     self.fade_out_factor = 0.95
     self.canvas = Canvas(8, 8)
-
     self.last_updated_at = time.time()
 
-
-
-
-    # self._init_wanderers()
-    self._init_pulsating_sequence()
+    # self._init_pulsating_sequence()
+    self._init_led()
 
 
   def update(self):
@@ -88,3 +85,7 @@ class Engine():
   def _activate_wanderers(self):
     for wander in self.wanderers:
       wander.set_active(True)
+
+  def _init_led(self):
+    led = Led("white", pins_leds["white"])
+    led.start_pulsating(1)
