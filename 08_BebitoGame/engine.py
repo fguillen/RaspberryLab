@@ -47,6 +47,7 @@ class Engine():
     # Debug
     # print("                          Delta: ", delta, "FPS: ", self.fps)
 
+
   def draw(self):
     self.canvas.fade_out(self.fade_out_factor)
 
@@ -61,31 +62,33 @@ class Engine():
 
     self.pixel_grid.show()
 
+
   def init_wander(self, key):
     wanderer = Wanderer(key, self.canvas, speed=random.randint(5, 15), bcm_pin_num=pins_buttons[key])
     self.wanderers.append(wanderer)
+
 
   def _delta(self):
     now = time.time()
     delta = now - self.last_updated_at
     return delta
 
+
   def _init_wanderers(self):
     for key in pins_buttons:
       wanderer = Wanderer(key, self.canvas, speed=random.randint(5, 15), bcm_pin_num=pins_buttons[key])
       self.wanderers.append(wanderer)
 
-  def _init_pulsating_sequence(self):
-    pulsating_sequence = PulsatingSequence("green", self.canvas, self, on_completed=lambda: self._activate_wanderers())
 
-    # for key in self.pins_buttons:
-    #   pulsating = Pulsating(key, self.canvas, bcm_pin_num=self.pins_buttons[key])
-    #   self.pulsatings.append(pulsating)
+  def _init_pulsating_sequence(self):
+    PulsatingSequence("green", self.canvas, self, on_completed=lambda: self._activate_wanderers())
+
 
   def _activate_wanderers(self):
     for wander in self.wanderers:
       wander.set_active(True)
 
+
   def _init_led(self):
-    led = Led("white", pins_leds["white"])
+    led = Led("white", pins_leds["teal"])
     led.start_pulsating(1)

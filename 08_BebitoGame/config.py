@@ -6,10 +6,10 @@ pins_buttons = {
 }
 
 pins_leds = {
-  "maroon": 13,
-  "green": 19,
-  "teal": 26,
-  "white": 6
+  "maroon": 20,
+  "green": 16,
+  "teal": 12,
+  "white": 21
 }
 
 # pins_buttons = {
