@@ -14,6 +14,7 @@ from drawable import Drawable
 from wanderer import Wanderer
 from canvas import Canvas
 from pulsating_sequence import PulsatingSequence
+from check_elements import CheckElements
 from led import Led
 
 class Engine():
@@ -29,8 +30,9 @@ class Engine():
     self.canvas = Canvas(8, 8)
     self.last_updated_at = time.time()
 
+    self._check_elements()
     # self._init_pulsating_sequence()
-    self._init_led()
+    # self._init_led()
 
 
   def update(self):
@@ -74,10 +76,14 @@ class Engine():
     return delta
 
 
-  def _init_wanderers(self):
-    for key in pins_buttons:
-      wanderer = Wanderer(key, self.canvas, speed=random.randint(5, 15), bcm_pin_num=pins_buttons[key])
-      self.wanderers.append(wanderer)
+  # def _init_wanderers(self):
+  #   for key in pins_buttons:
+  #     wanderer = Wanderer(key, self.canvas, speed=random.randint(5, 15), bcm_pin_num=pins_buttons[key])
+  #     self.wanderers.append(wanderer)
+
+
+  def _check_elements(self):
+    CheckElements(self.canvas, on_complete=lambda: self._init_pulsating_sequence())
 
 
   def _init_pulsating_sequence(self):
@@ -89,6 +95,6 @@ class Engine():
       wander.set_active(True)
 
 
-  def _init_led(self):
-    led = Led("white", pins_leds["teal"])
-    led.start_pulsating(1)
+  # def _init_led(self):
+  #   led = Led("white", pins_leds["teal"])
+  #   led.start_pulsating(1)

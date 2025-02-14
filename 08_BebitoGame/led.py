@@ -20,7 +20,6 @@ class Led(Updatable):
 
 
   def set_value(self, new_value):
-    print(">>>>> led.set_value:", new_value)
     self.value = new_value
     self.pwm.ChangeDutyCycle(self.value)
 
@@ -36,7 +35,7 @@ class Led(Updatable):
 
 
   def start_pulsating(self, speed):
-    print(">>>>> led.start_pulsating()")
+    print(">>>>> led.start_pulsating()", self.name)
     self.pulsating_speed = speed
     self.pulsating = True
     self.start_pulsating_at = time.time()
@@ -50,6 +49,7 @@ class Led(Updatable):
 
 
   def destroy(self):
+    self.set_value(0)
     Updatable.destroy(self)
 
 
