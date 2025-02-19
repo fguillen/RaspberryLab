@@ -18,10 +18,14 @@ class Button(Updatable):
     self.on_button_pressed = callback
 
   def update(self, delta):
+    # if self.name == "white":
+    #   print(f"Button[{self.name}].value", self.value)
+
     pinValue = self._load_value()
 
     if pinValue == 1 and self.value == 0:
       # Button pressed in the last frame
+      print(f"Button[{self.name}].pressed")
       if self.on_button_pressed:
         self.on_button_pressed()
 

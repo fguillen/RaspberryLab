@@ -8,7 +8,6 @@ from adafruit_led_animation.grid import PixelGrid, VERTICAL, HORIZONTAL
 # from neopixel_mock.neopixel_mock import NeoPixelMock
 # from neopixel_mock.board_mock import BoardMock
 
-from config import pins_buttons, pins_leds
 from updatable import Updatable
 from drawable import Drawable
 from wanderer import Wanderer
@@ -16,6 +15,10 @@ from canvas import Canvas
 from pulsating_sequence import PulsatingSequence
 from check_elements import CheckElements
 from led import Led
+
+# from blinking_led import BlinkingLed
+# from config import pins_buttons, pins_leds
+# from button import Button
 
 class Engine():
   def __init__(self):
@@ -33,6 +36,8 @@ class Engine():
     # self._check_elements()
     self._init_pulsating_sequence()
     # self._init_led()
+    # self._init_blinking_led()
+    # self._init_buttons()
 
 
   def update(self):
@@ -66,7 +71,7 @@ class Engine():
 
 
   def init_wander(self, key):
-    wanderer = Wanderer(key, self.canvas, speed=random.randint(5, 15), bcm_pin_num=pins_buttons[key])
+    wanderer = Wanderer(key, self.canvas, speed=random.randint(5, 15))
     self.wanderers.append(wanderer)
 
 
@@ -74,12 +79,6 @@ class Engine():
     now = time.time()
     delta = now - self.last_updated_at
     return delta
-
-
-  # def _init_wanderers(self):
-  #   for key in pins_buttons:
-  #     wanderer = Wanderer(key, self.canvas, speed=random.randint(5, 15), bcm_pin_num=pins_buttons[key])
-  #     self.wanderers.append(wanderer)
 
 
   def _check_elements(self):
@@ -95,6 +94,19 @@ class Engine():
       wander.set_active(True)
 
 
-  # def _init_led(self):
-  #   led = Led("white", pins_leds["teal"])
-  #   led.start_pulsating(1)
+  # def _init_buttons(self):
+  #   for key in pins_buttons:
+  #     Button(
+  #         name=key,
+  #         bcm_pin_num=pins_buttons[key]
+  #     )
+
+
+
+
+  # def _init_blinking_led(self):
+  #   BlinkingLed(
+  #     bcm_pin_num=pins_leds["maroon"],
+  #     cycle_duration=0.1,
+  #     duration_seconds=1
+  #   )

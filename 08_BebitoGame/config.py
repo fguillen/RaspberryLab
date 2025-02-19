@@ -1,7 +1,7 @@
 pins_buttons = {
-  "maroon": 13,
-  "green": 19,
-  "teal": 26,
+  "maroon": 19,
+  "green": 26,
+  "teal": 13,
   "white": 6
 }
 

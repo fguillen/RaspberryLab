@@ -3,20 +3,26 @@ import time
 
 from updatable import Updatable
 
+
 class Led(Updatable):
+  pool = []
+
   def __init__(self, name, bcm_pin_num):
     print("Led.init", name, bcm_pin_num)
     self.name = name
     self.pin = bcm_pin_num
     self.value = 0
     self.pwm = None
-    self.pulsating_speed = 0.0
+    self.cycle_duration = 0.0
     self.pulsating = False
     self.start_pulsating_at = None
 
+    self._destroy_tween_in_the_pool()
     self._setup_gpio()
 
     Updatable.__init__(self)
+
+    Led.pool.append(self)
 
 
   def set_value(self, new_value):
@@ -29,20 +35,20 @@ class Led(Updatable):
       return
 
     time_pulsating = time.time() - self.start_pulsating_at
-    cycle_time = time_pulsating % self.pulsating_speed
+    cycle_time = time_pulsating % self.cycle_duration
     duty = 100 * cycle_time
     self.set_value(duty)
 
 
   def start_pulsating(self, speed):
     print(">>>>> led.start_pulsating()", self.name)
-    self.pulsating_speed = speed
+    self.cycle_duration = speed
     self.pulsating = True
     self.start_pulsating_at = time.time()
 
 
   def stop(self):
-    self.pulsating_speed = 0.0
+    self.cycle_duration = 0.0
     self.pulsating = False
     self.set_value(0)
     self.start_pulsating_at = None
@@ -50,15 +56,27 @@ class Led(Updatable):
 
   def destroy(self):
     self.set_value(0)
+    self.pwm.stop()
+    GPIO.cleanup(self.pin)
     Updatable.destroy(self)
+
+    if self in Led.pool:
+      Led.pool.remove(self)
 
 
   def __str__(self):
-    return f"Button[{self.name}]:{self.value}"
+    return f"Led[{self.name}]:{self.value}"
 
 
   def _load_value(self):
     return GPIO.input(self.pin)
+
+
+  def _destroy_tween_in_the_pool(self):
+    tween = next((e for e in Led.pool if e.pin == self.pin), None)
+    if tween != None:
+      print("Tween found:", tween)
+      tween.destroy()
 
 
   def _setup_gpio(self):

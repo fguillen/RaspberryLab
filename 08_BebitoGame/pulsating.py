@@ -10,11 +10,11 @@ from color import Color
 from config import pins_leds, pins_buttons
 
 class Pulsating(Updatable, Drawable):
-  def __init__(self, name, canvas, on_completed=None):
+  def __init__(self, name, canvas, on_completed=None, fps=2):
     self.name = name
     self.canvas = canvas
     self.color = Color.from_name(self.name)
-    self.fps = 2
+    self.fps = fps
 
     self.button = self._init_button()
     self.led = self._init_led()
