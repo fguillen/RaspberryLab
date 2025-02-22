@@ -48,11 +48,14 @@ class Canvas:
     else:
       raise TypeError("Invalid argument type in 'position': " + str(type(position)))
 
+
   def clear(self):
     self._pixels = [Color(0, 0, 0) for _ in range(self.width * self.height)]
 
+
   def fill(self, color):
     self._pixels = [color for _ in range(self.width * self.height)]
+
 
   def fade_out(self, factor):
     self._pixels = [color.fade_out(factor) for color in self._pixels]

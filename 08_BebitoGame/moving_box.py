@@ -18,8 +18,10 @@ class MovingBox(Updatable, Drawable):
     Updatable.__init__(self)
     Drawable.__init__(self)
 
+
   def set_on_collision(self, callback):
     self.on_collision = callback
+
 
   def update(self, delta = 1.0):
     self.position += self.direction * (self.speed * delta)
@@ -58,6 +60,7 @@ class MovingBox(Updatable, Drawable):
     # print("color_before: ", color_before, "color_after: ", color_after)
 
     self.canvas[self.position.round()] = self.color
+
 
   def destroy(self):
     Updatable.destroy(self)

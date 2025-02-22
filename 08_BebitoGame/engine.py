@@ -41,8 +41,9 @@ class Engine():
     # self._init_led()
     # self._init_blinking_led()
     # self._init_buttons()
+    self._init_black_rain()
 
-    self._awake()
+    # self._awake()
 
 
   def update(self):
@@ -101,6 +102,14 @@ class Engine():
     PulsatingSequence("green", self.canvas, self, on_completed=lambda: self._activate_wanderers())
 
 
+  def _destroy_all_elements(self):
+
+
+
+  def _init_black_rain(self):
+
+
+
   def _activate_wanderers(self):
     self._change_state("wanderers")
     self.wanderers_started_at = time.time()
@@ -117,24 +126,6 @@ class Engine():
   def _go_to_sleep(self):
     self._change_state("asleep")
     self.asleep_at = time.time()
-
-    # self.canvas.fill(Color.)
-
-    for updatable in Updatable.all:
-      updatable.destroy()
-
-    for drawable in Drawable.all:
-      drawable.destroy()
-
-    print(">>>> After destroy Updatable.all")
-    for updatable in Updatable.all:
-      print(">>>>>", id(updatable), updatable.__class__, updatable)
-      updatable.destroy()
-
-    print(">>>> After destroy Drawable.all")
-    for drawable in Drawable.all:
-      print(">>>>>", id(drawable), drawable.__class__, drawable)
-      drawable.destroy()
 
 
   def _check_if_should_awake(self):
