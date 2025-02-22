@@ -15,7 +15,7 @@ from canvas import Canvas
 from pulsating_sequence import PulsatingSequence
 from check_elements import CheckElements
 from led import Led
-from dark_rain import DarkRain
+from black_rain import BlackRain
 from color import Color
 
 # from blinking_led import BlinkingLed
@@ -57,7 +57,7 @@ class Engine():
     if self.state == "asleep":
       self._check_if_should_awake()
 
-    if self.state == "wanderers" or self.state == "dark_rain" or self.state == "calling":
+    if self.state == "wanderers" or self.state == "black_rain" or self.state == "calling":
       for updatable in Updatable.all:
         updatable.update(self._delta())
 
@@ -123,13 +123,13 @@ class Engine():
 
 
   def _init_black_rain(self):
-    self._change_state("dark_rain")
+    self._change_state("black_rain")
     self._destroy_all_elements()
-    dark_rain = DarkRain(Color.from_name("red"), self.canvas, on_complete=lambda: self._black_rain_completed())
+    black_rain = BlackRain(Color.from_name("red"), self.canvas, on_complete=lambda: self._black_rain_completed())
 
 
-  def _dark_rain_completed(self):
-    print(">>>> Engine._dark_rain_completed")
+  def _black_rain_completed(self):
+    print(">>>> Engine._black_rain_completed")
 
 
   def _activate_wanderers(self):
