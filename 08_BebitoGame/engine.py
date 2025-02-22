@@ -33,7 +33,7 @@ class Engine():
     self.fade_out_factor = 0.95
     self.canvas = Canvas(8, 8)
     self.last_updated_at = time.time()
-    self.awaken_at = time.time()
+    self.wanderers_started_at = time.time()
     self.asleep_at = None
 
     # self._check_elements()
@@ -50,9 +50,11 @@ class Engine():
 
     if self.state == "wanderers":
       self._check_if_should_sleep()
-    elif self.state == "asleep":
+
+    if self.state == "asleep":
       self._check_if_should_awake()
-    elif self.state == "wanderers" or self.state == "calling":
+
+    if self.state == "wanderers" or self.state == "calling":
       for updatable in Updatable.all:
         updatable.update(self._delta())
 
@@ -101,13 +103,14 @@ class Engine():
 
   def _activate_wanderers(self):
     self._change_state("wanderers")
+    self.wanderers_started_at = time.time()
 
     for wander in self.wanderers:
       wander.set_active(True)
 
 
   def _check_if_should_sleep(self):
-    if time.time() > self.awaken_at + self.settings["awake_time_in_seconds"]:
+    if time.time() > self.wanderers_started_at + settings["awake_time_in_seconds"]:
       self._go_to_sleep()
 
 
@@ -115,21 +118,32 @@ class Engine():
     self._change_state("asleep")
     self.asleep_at = time.time()
 
+    # self.canvas.fill(Color.)
+
     for updatable in Updatable.all:
       updatable.destroy()
 
     for drawable in Drawable.all:
       drawable.destroy()
 
+    print(">>>> After destroy Updatable.all")
+    for updatable in Updatable.all:
+      print(">>>>>", id(updatable), updatable.__class__, updatable)
+      updatable.destroy()
+
+    print(">>>> After destroy Drawable.all")
+    for drawable in Drawable.all:
+      print(">>>>>", id(drawable), drawable.__class__, drawable)
+      drawable.destroy()
+
 
   def _check_if_should_awake(self):
-    if time.time() > self.awaken_at + self.settings["awake_time_in_seconds"]:
+    if time.time() > self.asleep_at + settings["sleep_time_in_seconds"]:
       self._awake()
 
 
   def _awake(self):
     self._change_state("calling")
-    self.awaken_at = time.time()
     self._init_pulsating_sequence()
 
 

@@ -101,3 +101,6 @@ class Wanderer(MovingBox):
       cycle_duration=0.1,
       duration_seconds=1
     )
+
+  def __str__(self):
+    return f"Wanderer[{self.name}]"
