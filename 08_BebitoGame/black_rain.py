@@ -33,7 +33,6 @@ class BlackRain(Updatable, Drawable):
     for drop in self.drops:
       flat_position = (drop.position.round().y * self.canvas.width) + drop.position.round().x
       if self.rain_canvas[flat_position]:
-        print("BlackRain.deactivating_block at:", flat_position)
         self.rain_canvas[flat_position] = False
 
 

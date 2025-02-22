@@ -40,11 +40,8 @@ class Engine():
     self.wanderers_started_at = time.time()
     self.asleep_at = None
 
-    self.awake_slot_ini = datetime.strptime(settings.awake_slot_ini, "%H:%M").time(),
-    self.awake_slot_end = datetime.strptime(settings.awake_slot_end, "%H:%M").time(),
-
-    self.start_time = datetime.strptime(start_limit, "%H:%M").time()
-    end_time = datetime.strptime(end_limit, "%H:%M").time()
+    self.awake_slot_ini = datetime.strptime(settings["awake_slot_ini"], "%H:%M").time()
+    self.awake_slot_end = datetime.strptime(settings["awake_slot_end"], "%H:%M").time()
 
     # self._check_elements()
     # self._init_pulsating_sequence()
