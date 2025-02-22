@@ -15,6 +15,8 @@ from canvas import Canvas
 from pulsating_sequence import PulsatingSequence
 from check_elements import CheckElements
 from led import Led
+from dark_rain import DarkRain
+from color import Color
 
 # from blinking_led import BlinkingLed
 # from config import pins_buttons, pins_leds
@@ -55,7 +57,7 @@ class Engine():
     if self.state == "asleep":
       self._check_if_should_awake()
 
-    if self.state == "wanderers" or self.state == "calling":
+    if self.state == "wanderers" or self.state == "dark_rain" or self.state == "calling":
       for updatable in Updatable.all:
         updatable.update(self._delta())
 
@@ -103,11 +105,31 @@ class Engine():
 
 
   def _destroy_all_elements(self):
+    for updatable in Updatable.all:
+      updatable.destroy()
 
+    for drawable in Drawable.all:
+      drawable.destroy()
+
+    print(">>>> After destroy Updatable.all")
+    for updatable in Updatable.all:
+      print(">>>>>", id(updatable), updatable.__class__, updatable)
+      updatable.destroy()
+
+    print(">>>> After destroy Drawable.all")
+    for drawable in Drawable.all:
+      print(">>>>>", id(drawable), drawable.__class__, drawable)
+      drawable.destroy()
 
 
   def _init_black_rain(self):
+    self._change_state("dark_rain")
+    self._destroy_all_elements()
+    dark_rain = DarkRain(Color.from_name("red"), self.canvas, on_complete=lambda: self._black_rain_completed())
 
+
+  def _dark_rain_completed(self):
+    print(">>>> Engine._dark_rain_completed")
 
 
   def _activate_wanderers(self):
@@ -125,6 +147,7 @@ class Engine():
 
   def _go_to_sleep(self):
     self._change_state("asleep")
+    self._destroy_all_elements()
     self.asleep_at = time.time()
 
 
