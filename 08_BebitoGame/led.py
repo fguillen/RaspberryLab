@@ -16,6 +16,7 @@ class Led(Updatable):
     self.cycle_duration = 0.0
     self.pulsating = False
     self.start_pulsating_at = None
+    self.max_intensity = 1
 
     self._destroy_tween_in_the_pool()
     self._setup_gpio()
@@ -27,7 +28,7 @@ class Led(Updatable):
 
   def set_value(self, new_value):
     self.value = new_value
-    self.pwm.ChangeDutyCycle(self.value)
+    self.pwm.ChangeDutyCycle(self.value * self.max_intensity)
 
 
   def update(self, delta):
@@ -40,11 +41,12 @@ class Led(Updatable):
     self.set_value(duty)
 
 
-  def start_pulsating(self, speed):
+  def start_pulsating(self, speed, max_intensity=1):
     print(">>>>> led.start_pulsating()", self.name)
     self.cycle_duration = speed
     self.pulsating = True
     self.start_pulsating_at = time.time()
+    self.max_intensity = max_intensity
 
 
   def stop(self):

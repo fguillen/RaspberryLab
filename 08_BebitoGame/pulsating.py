@@ -76,7 +76,7 @@ class Pulsating(Updatable, Drawable):
       name=self.name,
       bcm_pin_num=pins_leds[self.name]
     )
-    led.start_pulsating(1)
+    led.start_pulsating(1, 0.3)
     return led
 
 
