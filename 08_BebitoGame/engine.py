@@ -1,5 +1,6 @@
 import time
 import random
+from datetime import datetime, time as dt_time
 
 import board
 import neopixel
@@ -38,6 +39,12 @@ class Engine():
     self.last_updated_at = time.time()
     self.wanderers_started_at = time.time()
     self.asleep_at = None
+
+    self.awake_slot_ini = datetime.strptime(settings.awake_slot_ini, "%H:%M").time(),
+    self.awake_slot_end = datetime.strptime(settings.awake_slot_end, "%H:%M").time(),
+
+    self.start_time = datetime.strptime(start_limit, "%H:%M").time()
+    end_time = datetime.strptime(end_limit, "%H:%M").time()
 
     # self._check_elements()
     # self._init_pulsating_sequence()
@@ -127,7 +134,7 @@ class Engine():
     self._change_state("black_rain")
     self._destroy_all_elements()
     color_name = random.choice(["maroon", "green", "teal", "white"])
-    black_rain = BlackRain(Color.from_name(color_name), self.canvas, on_completed=lambda: self._black_rain_completed())
+    BlackRain(Color.from_name(color_name), self.canvas, on_completed=lambda: self._black_rain_completed())
 
 
   def _black_rain_completed(self):
@@ -144,7 +151,12 @@ class Engine():
 
 
   def _check_if_should_sleep(self):
-    if time.time() > self.wanderers_started_at + settings["awake_time_in_seconds"]:
+    current_time = datetime.fromtimestamp(time.time()).time()
+
+    if (
+      (time.time() > self.wanderers_started_at + settings["awake_time_in_seconds"]) or
+      not (self.awake_slot_ini <= current_time <= self.awake_slot_end)
+    ):
       self._init_black_rain()
 
 
@@ -157,8 +169,14 @@ class Engine():
 
 
   def _check_if_should_awake(self):
-    if time.time() > self.asleep_at + settings["sleep_time_in_seconds"]:
+    current_time = datetime.fromtimestamp(time.time()).time()
+
+    if (
+      (time.time() > self.asleep_at + settings["sleep_time_in_seconds"]) and
+      (self.awake_slot_ini <= current_time <= self.awake_slot_end)
+    ):
       self._awake()
+
 
 
   def _awake(self):

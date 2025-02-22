@@ -22,5 +22,7 @@ pins_leds = {
 settings = {
   "num_rockets": 10,
   "awake_time_in_seconds": 10,
-  "sleep_time_in_seconds": 5
+  "sleep_time_in_seconds": 5,
+  "awake_slot_ini": "17:00",
+  "awake_slot_end": "18:00",
 }
