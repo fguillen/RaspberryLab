@@ -25,6 +25,7 @@ from config import settings
 
 class Engine():
   def __init__(self):
+    print(">>>> Engine.init")
     self.wanderers = []
     self.pulsatings = []
 
@@ -43,9 +44,9 @@ class Engine():
     # self._init_led()
     # self._init_blinking_led()
     # self._init_buttons()
-    self._init_black_rain()
+    # self._init_black_rain()
 
-    # self._awake()
+    self._awake()
 
 
   def update(self):
@@ -125,11 +126,13 @@ class Engine():
   def _init_black_rain(self):
     self._change_state("black_rain")
     self._destroy_all_elements()
-    black_rain = BlackRain(Color.from_name("red"), self.canvas, on_complete=lambda: self._black_rain_completed())
+    color_name = random.choice(["maroon", "green", "teal", "white"])
+    black_rain = BlackRain(Color.from_name(color_name), self.canvas, on_completed=lambda: self._black_rain_completed())
 
 
   def _black_rain_completed(self):
     print(">>>> Engine._black_rain_completed")
+    self._go_to_sleep()
 
 
   def _activate_wanderers(self):
@@ -142,12 +145,14 @@ class Engine():
 
   def _check_if_should_sleep(self):
     if time.time() > self.wanderers_started_at + settings["awake_time_in_seconds"]:
-      self._go_to_sleep()
+      self._init_black_rain()
 
 
   def _go_to_sleep(self):
     self._change_state("asleep")
     self._destroy_all_elements()
+
+
     self.asleep_at = time.time()
 
 

@@ -43,7 +43,7 @@ class PulsatingSequence(Updatable):
 
 
   def _sequence_completed(self):
+    self.destroy()
+
     if self.on_completed:
       self.on_completed()
-
-    self.destroy()

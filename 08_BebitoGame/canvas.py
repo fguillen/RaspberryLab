@@ -36,6 +36,7 @@ class Canvas:
     color (Color): The color to set the pixel to.
   """
   def __setitem__(self, position, color):
+    # print(">>>> Canvas.setColor:", position, color)
     if not isinstance(color, Color):
       raise TypeError("Invalid argument type in 'color': " + str(type(color)))
 

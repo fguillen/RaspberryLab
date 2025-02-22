@@ -55,10 +55,10 @@ class Pulsating(Updatable, Drawable):
 
   def _completed(self):
     print(f">>>>>>>>>>>>>>>>>>>>> Pulsating.{self.name}._completed()")
+    self.destroy()
+
     if self.on_completed:
       self.on_completed()
-
-    self.destroy()
 
 
   def _init_button(self):

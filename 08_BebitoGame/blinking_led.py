@@ -35,10 +35,10 @@ class BlinkingLed(Updatable):
 
 
   def _completed(self):
+    self.destroy()
+
     if self.on_completed:
       self.on_completed()
-
-    self.destroy()
 
 
   def _init_led(self):

@@ -52,8 +52,8 @@ class CheckElements(Updatable, Drawable):
       return
 
     if time.time() > self.test_screen_started_at + self.test_screen_seconds:
-      self.on_complete()
       self.destroy()
+      self.on_complete()
 
 
   def draw(self):

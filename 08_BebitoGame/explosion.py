@@ -22,8 +22,8 @@ class Explosion(Updatable, Drawable):
 
   def update(self, delta):
     if time.time() > self.started_at + self.duration:
-      self._sparks()
       self.destroy()
+      self._sparks()
 
   def _sparks(self):
     directions = [
