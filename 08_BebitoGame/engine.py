@@ -18,6 +18,7 @@ from led import Led
 
 # from blinking_led import BlinkingLed
 # from config import pins_buttons, pins_leds
+from config import settings
 # from button import Button
 
 class Engine():
@@ -32,19 +33,28 @@ class Engine():
     self.fade_out_factor = 0.95
     self.canvas = Canvas(8, 8)
     self.last_updated_at = time.time()
+    self.awaken_at = time.time()
+    self.asleep_at = None
 
     # self._check_elements()
-    self._init_pulsating_sequence()
+    # self._init_pulsating_sequence()
     # self._init_led()
     # self._init_blinking_led()
     # self._init_buttons()
+
+    self._awake()
 
 
   def update(self):
     delta = self._delta()
 
-    for updatable in Updatable.all:
-      updatable.update(self._delta())
+    if self.state == "wanderers":
+      self._check_if_should_sleep()
+    elif self.state == "asleep":
+      self._check_if_should_awake()
+    elif self.state == "wanderers" or self.state == "calling":
+      for updatable in Updatable.all:
+        updatable.update(self._delta())
 
     if delta > 0:
       self.fps = 1 / delta
@@ -90,8 +100,42 @@ class Engine():
 
 
   def _activate_wanderers(self):
+    self._change_state("wanderers")
+
     for wander in self.wanderers:
       wander.set_active(True)
+
+
+  def _check_if_should_sleep(self):
+    if time.time() > self.awaken_at + self.settings["awake_time_in_seconds"]:
+      self._go_to_sleep()
+
+
+  def _go_to_sleep(self):
+    self._change_state("asleep")
+    self.asleep_at = time.time()
+
+    for updatable in Updatable.all:
+      updatable.destroy()
+
+    for drawable in Drawable.all:
+      drawable.destroy()
+
+
+  def _check_if_should_awake(self):
+    if time.time() > self.awaken_at + self.settings["awake_time_in_seconds"]:
+      self._awake()
+
+
+  def _awake(self):
+    self._change_state("calling")
+    self.awaken_at = time.time()
+    self._init_pulsating_sequence()
+
+
+  def _change_state(self, new_state):
+    print(">>>> change_state:", new_state)
+    self.state = new_state
 
 
   # def _init_buttons(self):
